@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastJ Framework - High-Performance Java Web Framework</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2>FastJ</h2>
+                <span class="version">v1.0.0</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" data-route="dashboard" class="nav-link active">Dashboard</a></li>
+                <li><a href="#" data-route="api-explorer" class="nav-link">API Explorer</a></li>
+                <li><a href="#" data-route="demo" class="nav-link">Demo</a></li>
+                <li><a href="#" data-route="docs" class="nav-link">Documentation</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="page-section active">
+            <div class="container">
+                <div class="hero-section">
+                    <h1>FastJ Framework</h1>
+                    <p class="hero-subtitle">High-performance Java web framework inspired by FastAPI</p>
+                    <div class="hero-actions">
+                        <button class="btn btn--primary" onclick="showSection('docs')">Get Started</button>
+                        <button class="btn btn--outline" onclick="showSection('demo')">View Demo</button>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>🚀 High Performance</h3>
+                        <p>Built with virtual threads and async capabilities for maximum throughput</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📝 Type Safety</h3>
+                        <p>Leverage Java's type system for automatic validation and documentation</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔧 Minimal Config</h3>
+                        <p>Convention over configuration with annotation-driven development</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📊 Auto OpenAPI</h3>
+                        <p>Generate Swagger documentation automatically from your code</p>
+                    </div>
+                </div>
+
+                <div class="metrics-section">
+                    <h2>Performance Metrics</h2>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span class="metric-value">245ms</span>
+                            <span class="metric-label">Startup Time</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-value">25,000</span>
+                            <span class="metric-label">Requests/Second</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-value">45MB</span>
+                            <span class="metric-label">Memory Usage</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-value">2ms</span>
+                            <span class="metric-label">Response Time</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-start">
+                    <h2>Quick Start</h2>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>HelloWorld.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre><code class="language-java">@FastJApplication
+@EnableSwagger
+public class HelloWorld {
+    
+    @Get("/hello")
+    @Description("Simple hello world endpoint")
+    public String hello(@QueryParam String name) {
+        return "Hello, " + (name != null ? name : "World") + "!";
+    }
+    
+    public static void main(String[] args) {
+        FastJ.run(HelloWorld.class, args);
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Explorer Section -->
+        <section id="api-explorer" class="page-section">
+            <div class="container">
+                <h1>API Explorer</h1>
+                <p>Interactive testing interface for FastJ endpoints</p>
+
+                <div class="api-explorer-content">
+                    <div class="endpoints-list">
+                        <h2>Available Endpoints</h2>
+                        <div id="endpoints-container"></div>
+                    </div>
+
+                    <div class="api-test-panel">
+                        <h3>Test API</h3>
+                        <div class="test-form">
+                            <div class="form-group">
+                                <label class="form-label">Method</label>
+                                <select id="test-method" class="form-control">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">URL</label>
+                                <input type="text" id="test-url" class="form-control" placeholder="/api/users">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Request Body (JSON)</label>
+                                <textarea id="test-body" class="form-control" rows="4" placeholder='{"name": "John", "email": "john@example.com"}'></textarea>
+                            </div>
+                            <button class="btn btn--primary" onclick="testApi()">Send Request</button>
+                        </div>
+
+                        <div class="response-panel">
+                            <h4>Response</h4>
+                            <div class="response-status">
+                                <span id="response-status">Status: -</span>
+                                <span id="response-time">Time: -</span>
+                            </div>
+                            <pre id="response-body" class="response-body">No response yet</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Section -->
+        <section id="demo" class="page-section">
+            <div class="container">
+                <h1>Framework Demo</h1>
+                <p>See FastJ in action with working examples</p>
+
+                <div class="demo-tabs">
+                    <button class="tab-btn active" onclick="showDemoTab('crud')">CRUD Operations</button>
+                    <button class="tab-btn" onclick="showDemoTab('validation')">Validation</button>
+                    <button class="tab-btn" onclick="showDemoTab('async')">Async Features</button>
+                </div>
+
+                <div id="crud-demo" class="demo-content active">
+                    <h2>User Management CRUD</h2>
+                    <div class="demo-panel">
+                        <div class="demo-controls">
+                            <h3>Create User</h3>
+                            <div class="form-group">
+                                <input type="text" id="user-name" class="form-control" placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="user-email" class="form-control" placeholder="Email">
+                            </div>
+                            <button class="btn btn--primary" onclick="createUser()">Create User</button>
+                        </div>
+
+                        <div class="demo-results">
+                            <h3>Users List</h3>
+                            <div id="users-list" class="users-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>UserController.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre><code class="language-java">@Path("/api")
+@FastJController
+public class UserController {
+    
+    @Inject
+    private UserService userService;
+    
+    @Get("/users")
+    @Description("Get all users")
+    public List<User> getAllUsers() {
+        return userService.findAll();
+    }
+    
+    @Post("/users")
+    @Validate
+    public CompletableFuture<User> createUser(@RequestBody User user) {
+        return CompletableFuture.supplyAsync(() -> 
+            userService.create(user)
+        );
+    }
+    
+    @Put("/users/{id}")
+    public User updateUser(@PathParam String id, @RequestBody User user) {
+        return userService.update(Long.parseLong(id), user);
+    }
+    
+    @Delete("/users/{id}")
+    public ResponseEntity deleteUser(@PathParam String id) {
+        userService.delete(Long.parseLong(id));
+        return ResponseEntity.ok("User deleted successfully");
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div id="validation-demo" class="demo-content">
+                    <h2>Automatic Validation</h2>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>User.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre><code class="language-java">@Entity
+public class User {
+    @Id
+    private Long id;
+    
+    @NotNull
+    @Size(min = 2, max = 50)
+    private String name;
+    
+    @Email
+    @NotNull
+    private String email;
+    
+    @Past
+    private LocalDate birthDate;
+    
+    // Constructors, getters, and setters
+}</code></pre>
+                    </div>
+                </div>
+
+                <div id="async-demo" class="demo-content">
+                    <h2>Async & Virtual Threads</h2>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>AsyncController.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre><code class="language-java">@FastJController
+public class AsyncController {
+    
+    @Get("/async/users")
+    public CompletableFuture<List<User>> getAsyncUsers() {
+        return CompletableFuture
+            .supplyAsync(() -> userService.findAll())
+            .thenApply(users -> {
+                // Heavy processing on virtual thread
+                return users.stream()
+                    .map(this::enrichUserData)
+                    .collect(Collectors.toList());
+            });
+    }
+    
+    @Get("/stream/events")
+    @Produces(MediaType.TEXT_EVENT_STREAM)
+    public Publisher<String> streamEvents() {
+        return Multi.createFrom().ticks()
+            .every(Duration.ofSeconds(1))
+            .map(tick -> "Event " + tick);
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation Section -->
+        <section id="docs" class="page-section">
+            <div class="container">
+                <h1>Documentation</h1>
+                <div class="docs-layout">
+                    <nav class="docs-nav">
+                        <ul>
+                            <li><a href="#" onclick="showDocsSection('getting-started')">Getting Started</a></li>
+                            <li><a href="#" onclick="showDocsSection('annotations')">Annotations</a></li>
+                            <li><a href="#" onclick="showDocsSection('architecture')">Architecture</a></li>
+                            <li><a href="#" onclick="showDocsSection('examples')">Examples</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="docs-content">
+                        <div id="getting-started" class="docs-section active">
+                            <h2>Getting Started</h2>
+                            <p>FastJ is a modern Java web framework that brings the simplicity of FastAPI to the Java ecosystem.</p>
+                            
+                            <h3>Installation</h3>
+                            <div class="code-example">
+                                <div class="code-header">
+                                    <span>pom.xml</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.fastj&lt;/groupId&gt;
+    &lt;artifactId&gt;fastj-core&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+                            </div>
+
+                            <h3>Your First Application</h3>
+                            <div class="code-example">
+                                <div class="code-header">
+                                    <span>Application.java</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre><code class="language-java">@FastJApplication
+@EnableSwagger
+public class MyApplication {
+    
+    public static void main(String[] args) {
+        FastJ.run(MyApplication.class, args);
+    }
+    
+    @Bean
+    public UserService userService() {
+        return new UserServiceImpl();
+    }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div id="annotations" class="docs-section">
+                            <h2>Annotation Reference</h2>
+                            <div id="annotations-list"></div>
+                        </div>
+
+                        <div id="architecture" class="docs-section">
+                            <h2>Architecture</h2>
+                            <p>FastJ is built on modern Java features including virtual threads, dependency injection, and annotation processing.</p>
+                            
+                            <h3>Key Components</h3>
+                            <ul>
+                                <li><strong>Router</strong>: Handles HTTP request routing based on annotations</li>
+                                <li><strong>DI Container</strong>: Manages dependency injection and bean lifecycle</li>
+                                <li><strong>Validator</strong>: Automatic request validation using annotations</li>
+                                <li><strong>Serializer</strong>: JSON serialization/deserialization</li>
+                                <li><strong>OpenAPI Generator</strong>: Automatic API documentation generation</li>
+                            </ul>
+                        </div>
+
+                        <div id="examples" class="docs-section">
+                            <h2>Complete Examples</h2>
+                            <div class="code-example">
+                                <div class="code-header">
+                                    <span>Complete REST API</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre><code class="language-java">@Path("/api/v1")
+@FastJController
+public class UserController {
+    
+    @Inject
+    private UserService userService;
+    
+    @Get("/users")
+    @Description("Get all users")
+    public List<User> getAllUsers() {
+        return userService.findAll();
+    }
+    
+    @Post("/users")
+    @Validate
+    public CompletableFuture<User> createUser(@RequestBody User user) {
+        return CompletableFuture.supplyAsync(() -> 
+            userService.create(user)
+        );
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 FastJ Framework. Built with ❤️ for Java developers.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
